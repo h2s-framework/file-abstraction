@@ -1,0 +1,21 @@
+id: Siarko.Files.default
+
+types:
+  \Siarko\Files\Api\FileInterface: \Siarko\Files\File
+  \Siarko\Files\Api\LookupInterface: \Siarko\Files\Lookup\DirectoryLookup
+  \Siarko\Files\Lookup\Project: !new \Siarko\Files\Api\LookupInterface
+  \Siarko\Files\Api\DirectoryInterface: \Siarko\Files\Directory
+  \Siarko\Files\Api\Persistence\FilePersistenceInterface: \Siarko\Files\Persistence\FilePersistence
+arguments:
+  \Symfony\Component\Mime\MimeTypes:
+    map:
+      text/dbml:
+        - dbml
+  \Siarko\Files\Lookup\Project:
+    pathProvider: \Siarko\Paths\Provider\ProjectPathProvider
+  \Siarko\Files\Parse\ParserManager:
+    parsers:
+      default:
+        csv:
+          mimeTypes: [text/csv]
+          parser: !type:object \Siarko\Files\Parse\Parsers\CsvFileParser
