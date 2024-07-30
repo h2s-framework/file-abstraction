@@ -1,5 +1,5 @@
 {
-  "name": "siarkowodor/file-abstraction",
+  "name": "h2sf/file-abstraction",
   "description": "File abstraction layer library",
   "minimum-stability": "stable",
   "license": "proprietary",
@@ -12,9 +12,9 @@
     }
   ],
     "require": {
-      "siarkowodor/h2s-api": "*",
-      "siarkowodor/h2s-path-manager": "*",
-      "siarkowodor/serialization": "*",
+      "h2sf/api": "*",
+      "h2sf/path-manager": "*",
+      "h2sf/serialization": "*",
       "symfony/mime": "^v6.0"
     },
   "autoload": {
