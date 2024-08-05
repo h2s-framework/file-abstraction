@@ -26,13 +26,17 @@ class FilePersistence implements FilePersistenceInterface
 
     /**
      * @param FileInterface $file
+     * @param string|null $content
      * @return void
      * @throws FilePathNotSetException
      */
-    public function write(FileInterface $file): void
+    public function write(FileInterface $file, ?string $content = null): void
     {
         $this->create($file);
-        file_put_contents($file->getPath(), $file->getContent());
+        if($content === null){
+            $content = $file->getContent();
+        }
+        file_put_contents($file->getPath(), $content);
     }
 
     /**

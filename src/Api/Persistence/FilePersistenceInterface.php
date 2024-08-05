@@ -16,9 +16,10 @@ interface FilePersistenceInterface
 
     /**
      * @param FileInterface $file
+     * @param string|null $content
      * @return void
      */
-    public function write(FileInterface $file): void;
+    public function write(FileInterface $file, ?string $content = null): void;
 
     /**
      * @param FileInterface $file

@@ -34,6 +34,13 @@ interface FileInterface
     public function getContent(bool $asArray = false): string|array;
 
     /**
+     * Sets file content
+     * @param string $content
+     * @return void
+     */
+    public function setContent(string $content): void;
+
+    /**
      * Return path info object
      * @return PathInfo|null
      */

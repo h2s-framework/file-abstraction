@@ -15,6 +15,9 @@ class File implements FileInterface
     #[Serializable]
     private ?string $path = null;
 
+    #[Serializable]
+    private ?string $content = null;
+
     /**
      * @param PathInfoFactory $pathInfoFactory
      * @param MimeTypes $mimeTypes
@@ -69,6 +72,9 @@ class File implements FileInterface
      */
     public function getContent(bool $asArray = false): string|array
     {
+        if($this->content !== null){
+            return $this->content;
+        }
         if ($this->exists()) {
             if ($asArray) {
                 return file($this->getPath());
@@ -77,6 +83,15 @@ class File implements FileInterface
             }
         }
         return '';
+    }
+
+    /**
+     * @param string $content
+     * @return void
+     */
+    public function setContent(string $content): void
+    {
+        $this->content = $content;
     }
 
     /**
