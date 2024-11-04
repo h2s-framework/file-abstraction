@@ -7,6 +7,7 @@ use Siarko\Files\Api\FileInterface;
 use Siarko\Files\Api\Persistence\FilePersistenceInterface;
 use Siarko\Files\Exception\FileNotExistsException;
 use Siarko\Files\Exception\FilePathNotSetException;
+use Siarko\Files\Exception\FileSoftlinkException;
 
 class FilePersistence implements FilePersistenceInterface
 {
@@ -85,7 +86,7 @@ class FilePersistence implements FilePersistenceInterface
      * @param FileInterface $file
      * @param DirectoryInterface $directory
      * @return void
-     * @throws FileNotExistsException
+     * @throws FileNotExistsException|FileSoftlinkException
      */
     public function softLink(FileInterface $file, DirectoryInterface $directory): void
     {
@@ -96,7 +97,9 @@ class FilePersistence implements FilePersistenceInterface
         $filePathInfo = $file->getPathInfo();
         $newPath = $directory->getFilePath($filePathInfo->getBasename());
         if(!file_exists($newPath)){
-            symlink($file->getPath(), $directory->getFilePath($file->getPathInfo()->getBasename()));
+            if(!@symlink($file->getPath(), $directory->getFilePath($file->getPathInfo()->getBasename()))) {
+                throw new FileSoftlinkException($file->getPath());
+            }
         }
     }
 }

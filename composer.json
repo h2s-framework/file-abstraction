@@ -4,6 +4,7 @@
   "minimum-stability": "stable",
   "license": "proprietary",
   "type": "library",
+  "version": "0.1.2",
   "authors": [
     {
       "name": "H2S",
