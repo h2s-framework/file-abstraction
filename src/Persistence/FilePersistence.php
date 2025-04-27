@@ -5,6 +5,7 @@ namespace Siarko\Files\Persistence;
 use Siarko\Files\Api\DirectoryInterface;
 use Siarko\Files\Api\FileInterface;
 use Siarko\Files\Api\Persistence\FilePersistenceInterface;
+use Siarko\Files\Exception\FileCopyException;
 use Siarko\Files\Exception\FileNotExistsException;
 use Siarko\Files\Exception\FilePathNotSetException;
 use Siarko\Files\Exception\FileSoftlinkException;
@@ -55,7 +56,7 @@ class FilePersistence implements FilePersistenceInterface
      * @param FileInterface $file
      * @param DirectoryInterface $directory
      * @return void
-     * @throws FileNotExistsException
+     * @throws FileNotExistsException|FileCopyException
      */
     public function copy(FileInterface $file, DirectoryInterface $directory): void
     {
@@ -66,7 +67,11 @@ class FilePersistence implements FilePersistenceInterface
         $filePathInfo = $file->getPathInfo();
         $newPath = $directory->getFilePath($filePathInfo->getBasename());
         if(!file_exists($newPath)){
-            copy($filePathInfo->getFullPath(), $directory->getFilePath($filePathInfo->getBasename()));
+            if(!@copy($filePathInfo->getFullPath(), $directory->getFilePath($filePathInfo->getBasename()))){
+                $lastError = error_get_last();
+                error_clear_last(); //clear error to prevent triggering shutdown function
+                throw new FileCopyException($file->getPath(), $lastError['message'] ?? '[No error message]');
+            }
         }
     }
 
@@ -98,7 +103,9 @@ class FilePersistence implements FilePersistenceInterface
         $newPath = $directory->getFilePath($filePathInfo->getBasename());
         if(!file_exists($newPath)){
             if(!@symlink($file->getPath(), $directory->getFilePath($file->getPathInfo()->getBasename()))) {
-                throw new FileSoftlinkException($file->getPath());
+                $lastError = error_get_last();
+                error_clear_last(); //clear error to prevent triggering shutdown function
+                throw new FileSoftlinkException($file->getPath(), $lastError['message'] ?? '[No error message]');
             }
         }
     }
