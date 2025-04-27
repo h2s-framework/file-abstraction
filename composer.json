@@ -4,7 +4,7 @@
   "minimum-stability": "stable",
   "license": "proprietary",
   "type": "library",
-  "version": "0.1.3",
+  "version": "0.2",
   "authors": [
     {
       "name": "H2S",
@@ -12,9 +12,9 @@
     }
   ],
     "require": {
-      "h2sf/api": "*",
-      "h2sf/path-manager": "*",
-      "h2sf/serialization": "*",
+      "h2sf/api": "^0.1",
+      "h2sf/path-manager": "^0.1",
+      "h2sf/serialization": "^0.1",
       "symfony/mime": "^v6.0"
     },
   "autoload": {

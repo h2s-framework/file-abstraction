@@ -2,7 +2,7 @@
 
 namespace Siarko\Files\Api;
 
-use Siarko\Paths\Provider\AbstractPathProvider;
+use Siarko\Files\Lookup\Result;
 
 interface LookupInterface
 {
@@ -10,7 +10,7 @@ interface LookupInterface
     /**
      * Find files in default workdir
      * @param string $filename
-     * @return array
+     * @return array<Result>
      */
     public function find(string $filename): array;
 

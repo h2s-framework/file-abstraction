@@ -13,16 +13,17 @@ class PoolLookup extends AbstractLookup implements LookupInterface
     public function __construct(
         private readonly PathProviderPoolInterface $pathProviderPool,
         private readonly string $fileType,
-        FileFactory          $fileFactory
+        FileFactory          $fileFactory,
+        ResultFactory         $resultFactory
     )
     {
-        parent::__construct($fileFactory);
+        parent::__construct($fileFactory, $resultFactory);
     }
 
     /**
      * Find files in default workdir
      * @param string $filename
-     * @return array
+     * @return array<Result>
      */
     public function find(string $filename): array
     {

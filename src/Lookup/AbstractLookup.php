@@ -11,7 +11,8 @@ use Siarko\Files\FileFactory;
 abstract class AbstractLookup
 {
     public function __construct(
-        private readonly FileFactory $fileFactory
+        private readonly FileFactory $fileFactory,
+        private readonly ResultFactory $resultFactory
     )
     {
     }
@@ -19,7 +20,7 @@ abstract class AbstractLookup
     /**
      * @param string $baseDir
      * @param string $filename
-     * @return array
+     * @return array<Result>
      */
     protected function findInDir(string $baseDir, string $filename): array
     {
@@ -32,7 +33,11 @@ abstract class AbstractLookup
         $Regex = new RegexIterator($Iterator, '/.*' . $filename . '$/', RecursiveRegexIterator::GET_MATCH);
         foreach ($Regex as $regex) {
             $file = $this->fileFactory->create();
-            $result[] = $file->setPath($regex[0]);
+            $file->setPath($regex[0]);
+            $result[] = $this->resultFactory->create([
+                'lookupDirectory' => $baseDir,
+                'file' => $file,
+            ]);
         }
         return $result;
     }
